@@ -21,7 +21,7 @@ body {
   line-height: 1.8;
 }
 a { color: var(--amber); }
-img { max-width: 100%; display: block; }
+img { max-width: 100%; height: auto; display: block; }
 
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 
@@ -73,8 +73,8 @@ section { padding: 88px 0; }
 .step p { margin: 0; color: var(--muted); font-size: 14px; }
 
 /* スクリーンショット */
-.shots { display: flex; gap: 18px; overflow-x: auto; padding: 36px 16px 12px; margin: 0 -16px; scroll-snap-type: x mandatory; }
-.shots figure { flex: 0 0 auto; width: min(64vw, 250px); margin: 0; scroll-snap-align: center; }
+.shots { display: flex; gap: 18px; overflow-x: auto; padding: 36px 16px 12px; margin: 0 -16px; scroll-snap-type: x mandatory; scroll-padding: 0 16px; }
+.shots figure { flex: 0 0 auto; width: min(64vw, 250px); margin: 0; scroll-snap-align: start; }
 .shots img { border-radius: 26px; border: 1px solid var(--line); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
 .shots figcaption { font-size: 13px; color: var(--muted); margin-top: 12px; text-align: center; }
 
@@ -119,3 +119,17 @@ section { padding: 88px 0; }
   .doc td:first-child { border-top: 0; font-weight: 600; }
   .doc td:not(:first-child)::before { content: attr(data-label); display: block; font-size: 12px; color: var(--amber); letter-spacing: 0.04em; }
 }
+
+/* three.js の演出（ヒーローの現像・波紋・塵） */
+.hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero { touch-action: pan-y; }
+
+/* スクリーンショット：奥から起き上がって並ぶ。マウスを乗せると傾く */
+.shots { perspective: 1200px; }
+.shots figure.tilt-in {
+  opacity: 0;
+  transform: rotateY(-38deg) translateX(60px) translateZ(-80px);
+  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.9s ease;
+}
+.shots figure.tilt-in.is-in { opacity: 1; transform: none; }
+.shots img { transition: transform 0.25s ease-out; will-change: transform; }
